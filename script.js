@@ -2,7 +2,6 @@
 let boxCounter = 0;
 let actualValue;
 
-
 // Write a function that creates the grid
 function boxCreation() {
     // CREATE THE DIVS
@@ -27,14 +26,14 @@ function boxCreation() {
 
     // ADD HOVER EFFECT
     // Add event listeners
-    newDiv.addEventListener('mouseenter', draw);
+    const randInt = (int) => {
+        return Math.floor(Math.random() * int)
+    };
 
+    newDiv.addEventListener('mouseenter', () => {
+        newDiv.style.backgroundColor = `rgb(${randInt(256)}, ${randInt(256)}, ${randInt(256)})`;
 
-    function draw(e) {
-        newDiv.style.backgroundColor = 'blue';
-        console.log('EVENT TYPE: '+e.type);
-    }
-
+    })
 }
 
 function reset(e) {   
@@ -43,25 +42,25 @@ function reset(e) {
     console.log(userInput);
 
     let intValue = Number(userInput);
-    if (intValue < 100) {
-        actualValue = intValue ** 2;
-        console.log(actualValue);
-
-        // Clear previous grid
-        document.querySelector(".container").innerHTML = "";
-
-        // Reset box counter
-        boxCounter = 0;
-
-        // Write a loop that creates boxes
-        while (boxCounter < actualValue) {
-            console.log(boxCounter);
-            boxCreation();
-            boxCounter++;
-        }
+    if (isNaN(intValue) || intValue <=0 || intValue >= 100) {
+        alert("Please enter a valid number between 1 and 99.");
+        return;
     }
-    return;
-    
+
+    actualValue = intValue ** 2;
+    console.log(actualValue);
+
+    // Clear previous grid
+    document.querySelector(".container").innerHTML = "";
+
+    // Reset box counter
+    boxCounter = 0;
+
+    // Write a loop that creates boxes
+    while (boxCounter < actualValue) {
+        boxCreation();
+        boxCounter++;
+    }
 }
 
 // Get the button element 
