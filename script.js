@@ -65,7 +65,7 @@ function boxCreation() {
     });
 }
 
-function reset(e) {   
+function enterGridNumber(e) {   
     console.log('EVENT TYPE: '+e.type);
     const userInput = prompt('Number of squares per side(<100):');
     console.log(userInput);
@@ -79,9 +79,7 @@ function reset(e) {
     actualValue = intValue ** 2;
     console.log(actualValue);
 
-    // Clear previous grid
-    document.querySelector(".container").innerHTML = "";
-
+    
     // Reset box counter
     boxCounter = 0;
 
@@ -92,8 +90,19 @@ function reset(e) {
     }
 }
 
-// Get the button element 
-const button = document.querySelector('button');
+function reset(e) {
+    // Clear previous grid
+    document.querySelector(".container").innerHTML = "";
+}
 
-// Add an event listener to the button for sending prompt message
-button.addEventListener('click', reset);
+// Get the buttonReset element 
+const buttonReset = document.getElementById('reset');
+
+// Add an event listener to the button for reset the grid
+buttonReset.addEventListener('click', reset);
+
+// Get the enter button element
+const buttonEnter = document.getElementById('enter');
+
+// Add an event listener for outputing prompt message for getting grid number
+buttonEnter.addEventListener("click", enterGridNumber);
