@@ -1,6 +1,5 @@
 // Set counter for box creation
 let boxCounter = 0;
-let actualValue;
 
 // Write a function that creates the grid
 function boxCreation() {
@@ -25,15 +24,45 @@ function boxCreation() {
     container.append(newDiv);
 
     // ADD HOVER EFFECT
-    // Add event listeners
-    const randInt = (int) => {
-        return Math.floor(Math.random() * int)
+    // Create a random function for rgb value generation
+    function randInt(max) {
+        return Math.floor(Math.random() * max)
     };
 
-    newDiv.addEventListener('mouseenter', () => {
-        newDiv.style.backgroundColor = `rgb(${randInt(256)}, ${randInt(256)}, ${randInt(256)})`;
+    // Initialize opacity of current div
+    newDiv.opac = 0; // Starts at 0
 
-    })
+    newDiv.setAttribute('data-opac', '0');
+
+    function increaseOpacity(div) {
+        // Retrieve the current opacity from the data attribute
+        let opac = parseFloat(div.getAttribute('data-opac'));
+        if (opac < 1) {
+            opac = Math.min(opac + 0.1, 1);
+            div.setAttribute('data-opac', opac.toString());
+        }
+        return opac;
+    }
+
+    newDiv.addEventListener('mouseenter', () => {
+        if (!newDiv.hasAttribute('data-color')) {
+            // Generate the random color only once and store it in a data attribute
+            const red = randInt(256);
+            const green = randInt(256);
+            const blue = randInt(256);
+            newDiv.setAttribute('data-color', `${red}, ${green}, ${blue}`);
+        }
+        
+        // Retrieve the fixed color from the data attribute
+        const color = newDiv.getAttribute('data-color');
+
+        // Increase the opacity
+        const opac = increaseOpacity(newDiv);
+
+        // Apply the color with the updated opacity
+        newDiv.style.backgroundColor = `rgba(${color}, ${opac})`;
+
+    });
 }
 
 function reset(e) {   
